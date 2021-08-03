@@ -1,6 +1,9 @@
+import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flash_chat/screens/login_screen.dart';
 import 'package:flash_chat/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
+
+enum PageType { login, register }
 
 class WelcomeScreen extends StatefulWidget {
   static const id = "welcome_screen";
@@ -9,6 +12,14 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
+// animation.addStatusListener((status) {
+//   if (status == AnimationStatus.completed) {
+//     controller.reverse(from: 1.0);
+//   } else if (status == AnimationStatus.dismissed) {
+//     controller.forward();
+//   }
+//   print(status);
+// });
 class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
@@ -27,19 +38,18 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
         .animate(controller);
     controller.forward();
-    // animation.addStatusListener((status) {
-    //   if (status == AnimationStatus.completed) {
-    //     controller.reverse(from: 1.0);
-    //   } else if (status == AnimationStatus.dismissed) {
-    //     controller.forward();
-    //   }
-    //   print(status);
-    // });
 
     controller.addListener(() {
       setState(() {});
-      print(animation.value);
     });
+  }
+
+  void onPress(PageType type) {
+    if (type == PageType.login) {
+      Navigator.pushNamed(context, LoginScreen.id);
+    } else if (type == PageType.register) {
+      Navigator.pushNamed(context, RegistrationScreen.id);
+    }
   }
 
   @override
@@ -80,44 +90,39 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             SizedBox(
               height: 48.0,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                elevation: 5.0,
-                color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                child: MaterialButton(
-                  onPressed: () {
-                    //Go to login screen.
-                    Navigator.pushNamed(context, LoginScreen.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Log In',
-                  ),
-                ),
-              ),
+            RoundedButton(
+              color: Colors.lightBlueAccent,
+              onPress: () {
+                Navigator.pushNamed(context, LoginScreen.id);
+              },
+              title: "Log In",
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, RegistrationScreen.id);
-                    //Go to registration screen.
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Register',
-                  ),
-                ),
-              ),
-            ),
+            RoundedButton(
+              color: Colors.blueAccent,
+              onPress: () {
+                Navigator.pushNamed(context, RegistrationScreen.id);
+              },
+              title: "Register",
+            )
+            // Padding(
+            //   padding: EdgeInsets.symmetric(vertical: 16.0),
+            //   child: Material(
+            //     color: Colors.blueAccent,
+            //     borderRadius: BorderRadius.circular(30.0),
+            //     elevation: 5.0,
+            //     child: MaterialButton(
+            //       onPressed: () {
+            //         Navigator.pushNamed(context, RegistrationScreen.id);
+            //         //Go to registration screen.
+            //       },
+            //       minWidth: 200.0,
+            //       height: 42.0,
+            //       child: Text(
+            //         'Register',
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
